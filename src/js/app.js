@@ -15,7 +15,7 @@ let filesURL = [];
 
 function init() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:7070?method=all', false);
+  xhr.open('GET', 'https://back-image-manager.herokuapp.com?method=all', false);
   xhr.send();
   if (xhr.status !== 200) {
     alert(`${xhr.status}: ${xhr.statusText}`);
@@ -34,7 +34,7 @@ dropEl.addEventListener('submit', (evt) => {
   console.log(evt.currentTarget.firstChild.nextSibling.value);
   const formData = new FormData(evt.currentTarget);
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://localhost:7070?method=create'); // TODO: subscribe to response 
+  xhr.open('POST', 'https://back-image-manager.herokuapp.com?method=create'); // TODO: subscribe to response 
   xhr.send(formData);
   // return false;
 })
@@ -136,7 +136,7 @@ function del() {
       });
       console.log(e.srcElement.previousSibling.getAttribute('num'));
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost:7070?method=delById'); // TODO: subscribe to response 
+      xhr.open('POST', 'https://back-image-manager.herokuapp.com?method=delById'); // TODO: subscribe to response 
       xhr.send(json);
     });
   });
