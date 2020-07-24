@@ -1,10 +1,3 @@
-import {
-  all,
-  byId,
-  create,
-  delById,
-} from './repo.js';
-
 const dropEl = document.querySelector('[data-id=drop-area]');
 const previewEl = document.querySelector('[data-id=preview]');
 const inp = document.querySelector('.inp');
@@ -12,32 +5,35 @@ const but = document.querySelector('.but');
 
 let files = [];
 let filesURL = [];
+let boo = false;
 
 function init() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://back-image-manager.herokuapp.com?method=all', false);
+  xhr.open('GET', 'https://back-image-manager.herokuapp.com/?method=all', false);
   xhr.send();
   if (xhr.status !== 200) {
     alert(`${xhr.status}: ${xhr.statusText}`);
   } else {
     console.log(xhr.responseText);
     filesURL = JSON.parse(xhr.responseText);
-    add();
+    // add();
     return;
   }
 }
 init();
-dropEl.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  console.log("submit");
+add();
+// dropEl.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   console.log("submit");
 
-  console.log(evt.currentTarget.firstChild.nextSibling.value);
-  const formData = new FormData(evt.currentTarget);
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://back-image-manager.herokuapp.com?method=create'); // TODO: subscribe to response 
-  xhr.send(formData);
-  // return false;
-})
+//   console.log(evt.currentTarget.firstChild.nextSibling.value);
+//   const formData = new FormData(evt.currentTarget);
+//   const xhr = new XMLHttpRequest();
+//   xhr.open('POST', 'http://localhost:7070?method=create'); // TODO: subscribe to response 
+//   xhr.send(formData);
+//   boo=false;
+//   // return false;
+// })
 
 function check(size) {
   const imgs = document.querySelectorAll('.image');
@@ -60,10 +56,20 @@ dropEl.addEventListener('drop', (evt) => {
   evt.preventDefault();
   if (evt.dataTransfer.files[0].type.match('image.*') && check(evt.dataTransfer.files[0].size)) {
     files = Array.from(evt.dataTransfer.files);
-    const formData = new FormData();
-    formData.append("picture", files[0], '1.png');
-    add();
+    console.log("C:\\fakepath\\"+evt.dataTransfer.files[0].name);
+    // evt.target.parentElement.firstChild.nextSibling.value="C:\\fakepath\\"+evt.dataTransfer.files[0].name;
+    console.log(evt.target.parentElement.firstChild.nextSibling.value);
+    console.log(evt.target.parentElement.firstChild.nextSibling);
 
+    const formData = new FormData();
+    formData.append("file", files[0], '1.png');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
+    xhr.send(formData);
+
+    boo=true;
+    add();
   } else {
     // console.log("uncorrect type file");
   }
@@ -75,12 +81,22 @@ function handleFiles() {
 
   if (this.files[0].type.match('image.*') && check(this.files[0].size)) {
     files = Array.from(this.files);
+    console.log(this.files);
+
     // let button = this.nextSibling.nextSibling.nextSibling.nextSibling;
     // console.log(this.nextSibling.nextSibling.nextSibling.nextSibling);
     // const but = document.querySelector('.but');
     // setTimeout(function() {but.сlick();}, 1000);
     // dropEl.submit();
     // create(this.parentElement);
+    const formData = new FormData();
+    formData.append("file", files[0], '1.png');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
+    xhr.send(formData);
+
+    boo=true;
     add();
   } else {
     // console.log("uncorrect type file");
@@ -89,7 +105,7 @@ function handleFiles() {
 
 function add() {
   console.log(filesURL);
-  if(filesURL.length===0){
+  if(!boo){
   filesURL.forEach(element => {
     const divimg = document.createElement('div');
     const img = document.createElement('img');
@@ -136,7 +152,7 @@ function del() {
       });
       console.log(e.srcElement.previousSibling.getAttribute('num'));
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://back-image-manager.herokuapp.com?method=delById'); // TODO: subscribe to response 
+      xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=delById'); // TODO: subscribe to response 
       xhr.send(json);
     });
   });
