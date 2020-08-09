@@ -65,7 +65,7 @@ dropEl.addEventListener('drop', (evt) => {
     formData.append("file", files[0], '1.png');
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
+    xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
     xhr.send(formData);
 
     boo=true;
@@ -93,7 +93,7 @@ function handleFiles() {
     formData.append("file", files[0], '1.png');
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
+    xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=create'); // TODO: subscribe to response 
     xhr.send(formData);
 
     boo=true;
@@ -152,7 +152,7 @@ function del() {
       });
       console.log(e.srcElement.previousSibling.getAttribute('num'));
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', 'https://back-image-manager.herokuapp.com/?method=delById'); // TODO: subscribe to response 
+      xhr.open('POST', 'https://back-image-manager.herokuapp.com/?method=delById'); // TODO: subscribe to response 
       xhr.send(json);
     });
   });
