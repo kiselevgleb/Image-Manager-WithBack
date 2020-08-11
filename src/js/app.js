@@ -112,8 +112,8 @@ function add() {
     const divimg = document.createElement('div');
     const img = document.createElement('img');
     img.src = element.path;
-    console.log(element.path.split('/'));
-    img.setAttribute('num', element.path.split('/')[2]);
+    console.log(element.path.split('/')[3].split('.')[0]);
+    img.setAttribute('num', element.path.split('/')[3].split('.')[0]);
     img.classList.add('image');
     img.height = '100';
     divimg.appendChild(img);
