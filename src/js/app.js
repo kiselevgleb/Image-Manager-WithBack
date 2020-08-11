@@ -70,6 +70,7 @@ dropEl.addEventListener('drop', (evt) => {
 
     boo=true;
     add();
+    init();
   } else {
     // console.log("uncorrect type file");
   }
@@ -98,6 +99,7 @@ function handleFiles() {
 
     boo=true;
     add();
+    init();
   } else {
     // console.log("uncorrect type file");
   }
@@ -156,5 +158,6 @@ function del() {
       xhr.send(json);
     });
   });
+  init();
   // add();
 }
